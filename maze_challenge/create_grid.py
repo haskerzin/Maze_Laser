@@ -7,7 +7,7 @@ class Grid:
         self.__laser = (0,1)
 
     
-    # M√©todo para gerar os √≠ndices da parte superior do grid
+    # MÈtodo para gerar os √≠ndices da parte superior do grid
     def gera_indices(self):
         
         indice = '   '
@@ -19,16 +19,16 @@ class Grid:
         
         print(indice)
     
-    # M√©todo para definir onde ficar√° a origem do laser
+    # MÈtodo para definir onde ficar√° a origem do laser
     def laser(self):
         self.__laser = (0, random.randint(1, self.size - 2))
         return self.__laser
 
-    # M√©todo para definir por onde o laser deve sair
+    # MÈtodo para definir por onde o laser deve sair
     def saida(self):
         return (self.size-1, random.randint(1, self.size - 2))
     
-    # M√©todo de coloca√ß√£o das bombas
+    # MÈtodo de colocaÁ„o das bombas
     def bombas(self, n_bombas, laser, saida):
         bombas = []
         while len(bombas) < n_bombas:
@@ -38,7 +38,13 @@ class Grid:
 
         return bombas
 
-    # M√©todo de desenho do caminho do laser
+    # MÈtodo de colocaÁ„o dos espelhos
+    def espelhos(self):
+        linha = input('Digite a linha do espelho: ')
+        coluna = input('Digite a coluna do espelho: ')
+        return (linha, coluna)
+
+    # MÈtodo de desenho do caminho do laser
     def raio(self, origem_laser):
         caminho_laser = []
         for i in range(10):
@@ -59,7 +65,7 @@ class Grid:
         return caminho_laser
 
 
-    # M√©todo de desenho da grade
+    # MÈtodo de desenho da grade
     def draw_grid(self):
         
         blank = '   '
@@ -68,12 +74,12 @@ class Grid:
         linha = 1
         laser = self.laser()
         saida = self.saida()
-        # Essa chamada do m√©todo self.bombas() ter√° que sair do m√©todo self.draw_grid() pois
+        # Essa chamada do MÈtodo self.bombas() ter√° que sair do MÈtodo self.draw_grid() pois
         # ap√≥s iniciar o jogo a posi√ß√£o das bombas n√£o mudam
         bombas = self.bombas(3, laser, saida)
         caminho_laser = self.raio_novo(laser, bombas)
         self.gera_indices()
-        
+
         for i in range(self.size):
             ponto =''
             for j in range(self.size+1):
