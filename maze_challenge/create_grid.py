@@ -78,6 +78,7 @@ class Grid:
                 elif (j,i) in bombas:
                     ponto += ' B '
                 
+                # Desenhando o caminho do laser
                 elif (j,i) in caminho_laser:
                     ponto += ' - '
 
