@@ -46,6 +46,18 @@ class Grid:
         
         return caminho_laser
 
+    # Novo m�todo de desenho do caminho do laser
+    def raio_novo(self, origem_laser, bombas):
+        caminho_laser = []
+        for i in range(10):
+            if (origem_laser[0] + 1 + i, origem_laser[1]) in bombas:
+                print('Game Over')
+                break
+            else:
+                caminho_laser.append((origem_laser[0] + 1 + i, origem_laser[1]))
+        
+        return caminho_laser
+
 
     # Método de desenho da grade
     def draw_grid(self):
@@ -53,15 +65,15 @@ class Grid:
         blank = '   '
         wall = ' w '
         ponto = ''
-        self.gera_indices()
         linha = 1
         laser = self.laser()
         saida = self.saida()
         # Essa chamada do método self.bombas() terá que sair do método self.draw_grid() pois
         # após iniciar o jogo a posição das bombas não mudam
         bombas = self.bombas(3, laser, saida)
-        caminho_laser = self.raio(laser)
-
+        caminho_laser = self.raio_novo(laser, bombas)
+        self.gera_indices()
+        
         for i in range(self.size):
             ponto =''
             for j in range(self.size+1):
