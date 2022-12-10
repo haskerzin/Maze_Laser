@@ -70,7 +70,7 @@ class Grid:
                 if (j,i) == laser:
                     ponto += ' = '
                 
-                # Desenhando a saída
+                # Desenhando a saída 
                 elif (j,i) == saida:
                     ponto += '   '
 
