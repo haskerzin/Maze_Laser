@@ -5,7 +5,7 @@ class Grid:
 
     def __init__(self):
         self.size = 12
-        self.__laser = (0,1)
+        self.origem_laser = (0,1)
         self.__saida = (11,1)
         self.espelhos = []
         self.__bombas = []
@@ -26,7 +26,7 @@ class Grid:
     
     # Método para definir onde ficará a origem do laser
     def laser(self):
-        self.__laser = (0, random.randint(1, self.size - 2))
+        self.origem_laser = (0, random.randint(1, self.size - 2))
 
     # Método para definir por onde o laser deve sair
     def saida(self):
@@ -75,10 +75,10 @@ class Grid:
 
                 else:
                     # print('Valor inválido. Digite 1 para espelho \ e 2 para espelho /')
-                    tipo = input('Tipo: ')
+                    tipo = input('Entrada inválida. \n Digite 1 para espelho \ e 2 para espelho /: ')
             else:
                 # print('Valor inválido. Digite 1 para espelho \ e 2 para espelho /')
-                tipo = input('Tipo: ')
+                tipo = input('Entrada inválida. \n Digite 1 para espelho \ e 2 para espelho /: ')
 
         self.tipo = int(tipo)
     
@@ -88,8 +88,8 @@ class Grid:
         y_espelho = input("Linha do espelho: ")
 
         while (self.checa_inteiro(x_espelho) == False)  or (self.checa_inteiro(y_espelho) == False):
-            print('Valores inválidos!')
-            x_espelho = input("Coluna do espelho: ")
+            # print('Valores inválidos!')
+            x_espelho = input("Valor inválido. \n Coluna do espelho: ")
             y_espelho = input("Linha do espelho: ")
 
         x_espelho = int(x_espelho)
@@ -110,6 +110,8 @@ class Grid:
 
     ################################################################################################################################################################################
 
+    ########################## Metodos do raio #####################################################################################################################################
+
     # Método de desenho do caminho do laser
     def raio(self, origem_laser):
         caminho_laser = []
@@ -119,16 +121,51 @@ class Grid:
         return caminho_laser
 
     # Novo método de desenho do caminho do laser
-    def raio_novo(self, origem_laser, bombas):
+    def raio_novo(self):
         caminho_laser = []
+        posicao_x = self.origem_laser[0]+1
+        posicao_y = self.origem_laser[1]
         for i in range(10):
-            if (origem_laser[0] + 1 + i, origem_laser[1]) in bombas:
+            # Identificando colisao com bombas
+            if (self.origem_laser[0] + 1 + i, self.origem_laser[1]) in self.__bombas:
                 print('Game Over')
                 break
+
+            elif self.origem_laser[0] + 1 + i == 11:
+                pass
+            
+            elif (self.origem_laser[0] + 1 + i, self.origem_laser[1]) in self.espelhos:
+                pass
+
+            
             else:
-                caminho_laser.append((origem_laser[0] + 1 + i, origem_laser[1]))
+                caminho_laser.append((self.laser_origem[0] + 1 + i, self.laser_origem[1]))
         
         return caminho_laser
+    
+    # Novo método de desenho do caminho do laser
+    def raio_2(self):
+        caminho_laser = []
+        posicao_x = self.origem_laser[0]+1
+        posicao_y = self.origem_laser[1]
+        for i in range(10):
+            # Identificando colisao com bombas
+            if (posicao_x + 1, posicao_y) in self.espelhos:
+                pass
+
+            elif self.origem_laser[0] + 1 + i == 11:
+                pass
+            
+            elif (self.origem_laser[0] + 1 + i, self.origem_laser[1]) in self.espelhos:
+                pass
+
+            
+            else:
+                caminho_laser.append((self.laser_origem[0] + 1 + i, self.laser_origem[1]))
+        
+        return caminho_laser
+
+    ################################################################################################################################################################################
 
     # Metodo para definir as posicoes da origem e saida do laser e das bombas antes de chamar a funcao para desenhar a tela
     def define_aparatos(self):
