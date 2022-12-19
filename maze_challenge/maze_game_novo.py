@@ -1,7 +1,7 @@
 # Novo maze
 import pygame
 from sys import exit
-# import numpy 
+ 
  
 
 class Laser:
