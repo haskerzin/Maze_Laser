@@ -15,16 +15,36 @@ class Laser:
         self.pos_y = 300
         self.speed = 10
         self.velocity = [self.speed,0]
-        self.new_velocity = [0,0]
+        self.new_velocity = [self.speed,0]
         self.direction = 1
-        self.position_vector = [[0,300]]
+        self.position_vector = [[0,300], [10,300], [20,300], [30,300], [40,300], [50,300], [60,300]]
         self.orange = (255,69,0)
         self.blue = (72,61,139)
         self.primeiro = len(self.position_vector)
         self.mudou_direcao = False
         self.food = []
         self._screen = pygame.display.set_mode([self.width, self.height])
+        self.velocity_vector = []
+        self.define_velocity()
 
+
+    def move_snake(self):
+        
+        for i in range(len(self.position_vector)):
+            self.position_vector[i][0] += self.velocity_vector[i][0]
+            self.position_vector[i][1] += self.velocity_vector[i][1]
+
+        self.add_velocity()          
+
+        # Torus topology
+        for i in range(len(self.position_vector)):
+            if self.position_vector[i][0] in (0, self.width):
+                self.position_vector[i][0] = abs(self.width - self.position_vector[i][0])
+            if self.position_vector[i][1] in (0, self.height):
+                self.position_vector[i][1] = abs(self.height - self.position_vector[i][1])
+
+        
+            
     def move_vector(self):
         for i in range(len(self.position_vector)):
             if i >= self.primeiro:
@@ -95,6 +115,22 @@ class Laser:
         # Vetor para marcar que mudamos de direção
         self.primeiro = len(self.position_vector) - 1
         self.mudou_direcao = True
+        self.add_velocity()
+    
+    def define_velocity(self):
+        vetor = []
+        for i in range(len(self.position_vector)):
+            vetor.append(self.velocity)
+        
+        self.velocity_vector = vetor
+
+
+    def add_velocity(self):
+        # Adding the self.new_velocity to the self.velocity_vector
+        self.velocity_vector.append(self.new_velocity)
+        del self.velocity_vector[0]
+        
+
 
 
 
@@ -107,7 +143,6 @@ class Laser:
 
         # Set up the drawing window
         self._screen
-
         # Run until the user asks to quit
         running = True
         while running:
@@ -122,11 +157,12 @@ class Laser:
 
             # Fill the background with black
             self._screen.fill((0, 0, 0))
-            self.generate_food()
-            self.draw_food()
-            self.eat_food()
+            # self.generate_food()
+            # self.draw_food()
+            # self.eat_food()
             self.draw_character()
-            self.move_vector()
+            # self.move_vector()
+            self.move_snake()
             pygame.time.wait(50)
 
             # Flip the display
