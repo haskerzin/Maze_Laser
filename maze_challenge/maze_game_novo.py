@@ -29,12 +29,23 @@ class Laser:
 
 
     def move_snake(self):
+
+        # self.add_velocity()
+        if self.mudou_direcao == True:
+            self.velocity_vector.append(self.new_velocity)
+            del self.velocity_vector[0]
+            self.primeiro -= 1
+
+        if self.primeiro == 0:
+            self.mudou_direcao = False
+            self.velocity = self.new_velocity
+            self.define_velocity()
         
         for i in range(len(self.position_vector)):
             self.position_vector[i][0] += self.velocity_vector[i][0]
             self.position_vector[i][1] += self.velocity_vector[i][1]
 
-        self.add_velocity()          
+
 
         # Torus topology
         for i in range(len(self.position_vector)):
@@ -42,8 +53,8 @@ class Laser:
                 self.position_vector[i][0] = abs(self.width - self.position_vector[i][0])
             if self.position_vector[i][1] in (0, self.height):
                 self.position_vector[i][1] = abs(self.height - self.position_vector[i][1])
-
         
+    
             
     def move_vector(self):
         for i in range(len(self.position_vector)):
@@ -69,6 +80,7 @@ class Laser:
             self.velocity = self.new_velocity
             self.new_velocity = [0,0]
             self.mudou_direcao = False
+
     
     def generate_food(self):
         if len(self.food) == 0:
@@ -113,9 +125,10 @@ class Laser:
             self.new_velocity[1] = 0
         
         # Vetor para marcar que mudamos de direção
-        self.primeiro = len(self.position_vector) - 1
+        self.primeiro = len(self.position_vector)
         self.mudou_direcao = True
-        self.add_velocity()
+
+
     
     def define_velocity(self):
         vetor = []
@@ -160,10 +173,11 @@ class Laser:
             # self.generate_food()
             # self.draw_food()
             # self.eat_food()
+            self.move_snake()
             self.draw_character()
             # self.move_vector()
-            self.move_snake()
-            pygame.time.wait(50)
+            
+            pygame.time.wait(100)
 
             # Flip the display
             pygame.display.flip()
